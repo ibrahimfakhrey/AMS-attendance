@@ -2,11 +2,19 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, time, timedelta
 import os
+import tempfile
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key-here'
-# Database configuration - always use SQLite
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///school_attendance.db'
+# Database configuration for Vercel
+
+if os.environ.get('VERCEL'):
+    # For Vercel, use a temporary database file
+    db_path = os.path.join(tempfile.gettempdir(), 'school_attendance.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+else:
+    # For local development
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///school_attendance.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -60,8 +68,13 @@ class Attendance(db.Model):
 # Main Routes
 @app.route('/')
 def index():
-    floors = Floor.query.order_by(Floor.number).all()
-    return render_template('index.html', floors=floors)
+    try:
+        floors = Floor.query.order_by(Floor.number).all()
+        return render_template('index.html', floors=floors)
+    except Exception as e:
+        print(f"Error in index route: {e}")
+        # Return empty floors list if database error
+        return render_template('index.html', floors=[])
 
 @app.route('/floor/<int:floor_id>')
 def floor_detail(floor_id):
@@ -586,12 +599,16 @@ def daily_statistics():
 # API endpoint for teacher search
 @app.route('/api/teachers/search')
 def search_teachers():
-    query = request.args.get('q', '').strip()
-    if len(query) < 2:
+    try:
+        query = request.args.get('q', '').strip()
+        if len(query) < 2:
+            return jsonify([])
+        
+        teachers = Teacher.query.filter(Teacher.name.contains(query)).limit(10).all()
+        return jsonify([{'id': teacher.id, 'name': teacher.name} for teacher in teachers])
+    except Exception as e:
+        print(f"Error in teacher search: {e}")
         return jsonify([])
-    
-    teachers = Teacher.query.filter(Teacher.name.contains(query)).limit(10).all()
-    return jsonify([{'id': teacher.id, 'name': teacher.name} for teacher in teachers])
 
 # Attendance Reports Route
 @app.route('/reports/attendance')
@@ -636,9 +653,42 @@ def attendance_reports():
 # Initialize database
 def init_db():
     with app.app_context():
-        db.create_all()
-        # Database structure created - no sample data added
-        # Use your existing data or add data through the admin interface
+        try:
+            db.create_all()
+            
+            # Add sample data for Vercel deployment if database is empty
+            if os.environ.get('VERCEL') and Floor.query.count() == 0:
+                # Add floors
+                for i in range(1, 6):
+                    floor = Floor(name=f'الطابق {i}', number=i)
+                    db.session.add(floor)
+                
+                db.session.commit()
+                
+                # Add sample classes
+                floors = Floor.query.all()
+                for floor in floors[:3]:  # Add classes to first 3 floors
+                    for j in range(1, 4):
+                        class_room = Class(name=f'فصل {floor.number}-{j}', floor_id=floor.id)
+                        db.session.add(class_room)
+                
+                # Add sample teachers
+                teachers_names = ['أحمد محمد', 'فاطمة علي', 'محمود حسن', 'سارة إبراهيم', 'خالد يوسف']
+                for name in teachers_names:
+                    teacher = Teacher(name=name)
+                    db.session.add(teacher)
+                
+                # Add sample subjects
+                subjects_names = ['الرياضيات', 'العلوم', 'اللغة العربية', 'اللغة الإنجليزية', 'التاريخ']
+                for name in subjects_names:
+                    subject = Subject(name=name)
+                    db.session.add(subject)
+                
+                db.session.commit()
+                
+        except Exception as e:
+            print(f"Database initialization error: {e}")
+            # Continue without database for now
 
 # For Vercel deployment
 app.wsgi_app = app.wsgi_app
