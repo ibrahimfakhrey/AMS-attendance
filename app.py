@@ -5,6 +5,7 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key-here'
+# Database configuration - always use SQLite
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///school_attendance.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -638,6 +639,9 @@ def init_db():
         db.create_all()
         # Database structure created - no sample data added
         # Use your existing data or add data through the admin interface
+
+# For Vercel deployment
+app.wsgi_app = app.wsgi_app
 
 if __name__ == '__main__':
     init_db()

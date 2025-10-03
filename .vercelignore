@@ -1,0 +1,35 @@
+# Local development files
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
+
+# Database files (keep local SQLite)
+# instance/
+# *.db
+# *.sqlite
+# *.sqlite3
+
+# PDF files (optional - remove if you want to include them)
+*.pdf
+
+# Documentation files (optional)
+*.md
+!README.md
