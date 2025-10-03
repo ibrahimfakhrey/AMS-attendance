@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}إدارة الفصول - نظام حضور المدرسة{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <a href="{{ url_for('admin') }}" class="btn-back">← رجوع</a>
+    <h2>إدارة الفصول</h2>
+    <a href="{{ url_for('add_class') }}" class="btn btn-primary">+ إضافة فصل</a>
+</div>
+
+{% if classes %}
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>اسم الفصل</th>
+                <th>الطابق</th>
+                <th>عدد الحصص</th>
+                <th>الإجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for class_room in classes %}
+            <tr>
+                <td>{{ class_room.name }}</td>
+                <td>{{ class_room.floor.name }}</td>
+                <td>{{ class_room.schedules|length }}</td>
+                <td class="actions-cell">
+                    <a href="{{ url_for('class_schedules', class_id=class_room.id) }}" class="btn btn-sm btn-info">الجدول</a>
+                    <a href="{{ url_for('edit_class', class_id=class_room.id) }}" class="btn btn-sm btn-secondary">تعديل</a>
+                    <form method="POST" action="{{ url_for('delete_class', class_id=class_room.id) }}" style="display: inline;" onsubmit="return confirm('هل أنت متأكد من حذف هذا الفصل؟');">
+                        <button type="submit" class="btn btn-sm btn-danger">حذف</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    <p>لا توجد فصول مسجلة</p>
+    <a href="{{ url_for('add_class') }}" class="btn btn-primary">إضافة فصل جديد</a>
+</div>
+{% endif %}
+{% endblock %}
+
+

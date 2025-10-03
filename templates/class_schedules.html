@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}جدول {{ class_room.name }} - نظام حضور المدرسة{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <a href="{{ url_for('admin_schedules') }}" class="btn-back">← رجوع</a>
+    <h2>جدول {{ class_room.name }}</h2>
+    <a href="{{ url_for('add_schedule', class_id=class_room.id) }}" class="btn btn-primary">+ إضافة حصة</a>
+</div>
+
+<div class="schedule-grid">
+    {% for day_name in days %}
+    {% set day_num = loop.index0 %}
+    <div class="day-column">
+        <h3 class="day-header">{{ day_name }}</h3>
+        
+        {% if schedules_by_day[day_num] %}
+            {% for schedule in schedules_by_day[day_num] %}
+            <div class="schedule-card">
+                <div class="schedule-time-badge">
+                    {{ schedule.start_time.strftime('%H:%M') }} - {{ schedule.end_time.strftime('%H:%M') }}
+                </div>
+                <div class="schedule-info">
+                    <p class="subject-name">{{ schedule.subject.name }}</p>
+                    <p class="teacher-name">{{ schedule.teacher.name }}</p>
+                </div>
+                <div class="schedule-actions">
+                    <a href="{{ url_for('edit_schedule', schedule_id=schedule.id) }}" class="btn btn-sm btn-secondary">تعديل</a>
+                    <form method="POST" action="{{ url_for('delete_schedule', schedule_id=schedule.id) }}" style="display: inline;" onsubmit="return confirm('هل أنت متأكد من حذف هذه الحصة؟');">
+                        <button type="submit" class="btn btn-sm btn-danger">حذف</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-day">
+                <p>لا توجد حصص</p>
+            </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+

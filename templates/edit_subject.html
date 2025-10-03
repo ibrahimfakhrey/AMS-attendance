@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}تعديل مادة - نظام حضور المدرسة{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <a href="{{ url_for('admin_subjects') }}" class="btn-back">← رجوع</a>
+    <h2>تعديل مادة</h2>
+</div>
+
+<div class="form-container">
+    <form method="POST" class="form">
+        <div class="form-group">
+            <label for="name">اسم المادة:</label>
+            <input type="text" id="name" name="name" class="form-control" required value="{{ subject.name }}">
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+            <a href="{{ url_for('admin_subjects') }}" class="btn btn-secondary">إلغاء</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+

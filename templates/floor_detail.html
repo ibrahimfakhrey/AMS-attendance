@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}{{ floor.name }} - نظام حضور المدرسة{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <a href="{{ url_for('index') }}" class="btn-back">← رجوع</a>
+    <h2>{{ floor.name }}</h2>
+</div>
+
+<div class="classes-grid">
+    {% for class_room in floor.classes %}
+    <div class="class-card">
+        <div class="class-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
+                <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3z"/>
+            </svg>
+        </div>
+        <h3>{{ class_room.name }}</h3>
+        <p>عدد الحصص: {{ class_room.schedules|length }}</p>
+        <a href="{{ url_for('class_detail', class_id=class_room.id) }}" class="btn btn-primary">عرض التفاصيل</a>
+    </div>
+    {% endfor %}
+</div>
+
+{% if not floor.classes %}
+<div class="empty-state">
+    <p>لا توجد فصول في هذا الطابق</p>
+    <a href="{{ url_for('add_class') }}" class="btn btn-primary">إضافة فصل</a>
+</div>
+{% endif %}
+{% endblock %}
+
+

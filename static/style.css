@@ -1,0 +1,869 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    direction: rtl;
+    text-align: right;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navigation */
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #667eea;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-menu a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-menu a:hover {
+    color: #667eea;
+}
+
+/* Main Content */
+.main-content {
+    min-height: calc(100vh - 200px);
+    padding-bottom: 2rem;
+}
+
+/* Page Header */
+.page-header {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.page-header h2 {
+    color: #333;
+    font-size: 2rem;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+.btn-info {
+    background: #17a2b8;
+    color: white;
+}
+
+.btn-info:hover {
+    background: #138496;
+}
+
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.875rem;
+}
+
+.btn-block {
+    width: 100%;
+    display: block;
+}
+
+.btn-back {
+    background: #f8f9fa;
+    color: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.btn-back:hover {
+    background: #e9ecef;
+}
+
+/* Alerts */
+.alert {
+    padding: 1rem 1.5rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.alert-success {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.alert-error {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.alert-close {
+    position: absolute;
+    top: 0.5rem;
+    left: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: inherit;
+}
+
+/* Grids */
+.floors-grid,
+.classes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+/* Cards */
+.floor-card,
+.class-card,
+.admin-card {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.floor-card:hover,
+.class-card:hover,
+.admin-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.floor-icon,
+.class-icon,
+.admin-icon {
+    color: #667eea;
+    margin-bottom: 1rem;
+}
+
+.floor-card h3,
+.class-card h3,
+.admin-card h3 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.floor-number,
+.floor-classes-count {
+    color: #666;
+    margin: 0.5rem 0;
+}
+
+.admin-card p {
+    color: #666;
+    margin: 1rem 0;
+}
+
+.admin-card .btn {
+    margin-top: 1rem;
+}
+
+/* Current Time Box */
+.current-time-box {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.current-time-box p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+/* Current Session Box */
+.current-session-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 3px solid #667eea;
+}
+
+.current-session-box h3 {
+    color: #667eea;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.session-info {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+}
+
+.session-info p {
+    margin: 0.5rem 0;
+    color: #333;
+}
+
+/* Attendance Status */
+.attendance-status {
+    padding: 1rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+
+.status-present {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.status-late {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+}
+
+.status-absent {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+/* Forms */
+.attendance-form {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+
+.attendance-form h4 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.form-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.radio-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.radio-label input[type="radio"] {
+    cursor: pointer;
+}
+
+.radio-label span {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.date-selector-form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.form-group.inline {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.form-group.inline label {
+    margin-bottom: 0;
+}
+
+.form-group.inline .form-control {
+    width: auto;
+}
+
+/* Schedule List */
+.today-schedule {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.today-schedule h3 {
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.schedule-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 5px;
+    border-right: 4px solid #ddd;
+    transition: all 0.3s;
+}
+
+.schedule-item.active {
+    border-right-color: #667eea;
+    background: linear-gradient(90deg, rgba(102, 126, 234, 0.1) 0%, #f8f9fa 100%);
+}
+
+.schedule-time {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    min-width: 150px;
+}
+
+.time-badge {
+    background: #667eea;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 3px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.time-separator {
+    color: #666;
+}
+
+.schedule-details {
+    flex: 1;
+}
+
+.schedule-details h4 {
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.schedule-details p {
+    color: #666;
+    font-size: 0.875rem;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 3px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+.badge-present {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-late {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.badge-absent {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.badge-pending {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
+/* Tables */
+.table-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table thead {
+    background: #667eea;
+    color: white;
+}
+
+.data-table th,
+.data-table td {
+    padding: 1rem;
+    text-align: right;
+    border-bottom: 1px solid #ddd;
+}
+
+.data-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-start;
+}
+
+/* Admin Menu */
+.admin-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Classes List */
+.classes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.class-item {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.class-info h3 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.class-info p {
+    color: #666;
+}
+
+/* Schedule Grid */
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.day-column {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.day-header {
+    background: #667eea;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.schedule-card {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.schedule-card:last-child {
+    border-bottom: none;
+}
+
+.schedule-time-badge {
+    background: #f8f9fa;
+    padding: 0.5rem;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: #667eea;
+    font-weight: 600;
+}
+
+.schedule-info {
+    margin-bottom: 0.5rem;
+}
+
+.subject-name {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.teacher-name {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.schedule-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.empty-day {
+    padding: 2rem;
+    text-align: center;
+    color: #999;
+}
+
+/* Statistics */
+.statistics-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+    color: #667eea;
+    margin-bottom: 1rem;
+}
+
+.stat-card h3 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.stat-card p {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.stats-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.stat-box h3 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-box p {
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.stat-total {
+    border-top: 4px solid #667eea;
+}
+
+.stat-total h3 {
+    color: #667eea;
+}
+
+.stat-present {
+    border-top: 4px solid #28a745;
+}
+
+.stat-present h3 {
+    color: #28a745;
+}
+
+.stat-late {
+    border-top: 4px solid #ffc107;
+}
+
+.stat-late h3 {
+    color: #ffc107;
+}
+
+.stat-absent {
+    border-top: 4px solid #dc3545;
+}
+
+.stat-absent h3 {
+    color: #dc3545;
+}
+
+.percentage {
+    display: block;
+    font-size: 1rem;
+    color: #999;
+}
+
+.statistics-section {
+    margin-bottom: 2rem;
+}
+
+.statistics-section h3 {
+    background: white;
+    padding: 1rem 2rem;
+    border-radius: 10px 10px 0 0;
+    margin-bottom: 0;
+    color: #333;
+}
+
+.statistics-section .table-container {
+    border-radius: 0 0 10px 10px;
+    padding-top: 0;
+}
+
+/* Info Box */
+.info-box {
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    border-right: 4px solid #667eea;
+}
+
+.info-box p {
+    color: #666;
+    margin: 0;
+}
+
+/* Empty State */
+.empty-state {
+    background: white;
+    padding: 3rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.empty-state p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+/* Actions */
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+/* Footer */
+footer {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+    text-align: center;
+    color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar .container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-menu {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+
+    .page-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .floors-grid,
+    .classes-grid,
+    .admin-menu,
+    .statistics-menu {
+        grid-template-columns: 1fr;
+    }
+
+    .schedule-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .schedule-item {
+        flex-direction: column;
+    }
+
+    .schedule-time {
+        min-width: auto;
+    }
+
+    .actions-cell {
+        flex-direction: column;
+    }
+
+    .stats-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+}
+
+

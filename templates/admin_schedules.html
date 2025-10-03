@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}إدارة الجداول - نظام حضور المدرسة{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <a href="{{ url_for('admin') }}" class="btn-back">← رجوع</a>
+    <h2>إدارة جداول الحصص</h2>
+</div>
+
+<div class="info-box">
+    <p>اختر فصلًا لعرض وتعديل جدول الحصص الخاص به</p>
+</div>
+
+<div class="classes-list">
+    {% for class_room in classes %}
+    <div class="class-item">
+        <div class="class-info">
+            <h3>{{ class_room.name }}</h3>
+            <p>{{ class_room.floor.name }} - {{ class_room.schedules|length }} حصة</p>
+        </div>
+        <a href="{{ url_for('class_schedules', class_id=class_room.id) }}" class="btn btn-primary">عرض الجدول</a>
+    </div>
+    {% endfor %}
+</div>
+
+{% if not classes %}
+<div class="empty-state">
+    <p>لا توجد فصول في النظام</p>
+    <a href="{{ url_for('add_class') }}" class="btn btn-primary">إضافة فصل جديد</a>
+</div>
+{% endif %}
+{% endblock %}
+
+

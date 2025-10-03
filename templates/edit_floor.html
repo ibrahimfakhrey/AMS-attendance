@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}تعديل طابق - نظام حضور المدرسة{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <a href="{{ url_for('admin_floors') }}" class="btn-back">← رجوع</a>
+    <h2>تعديل طابق</h2>
+</div>
+
+<div class="form-container">
+    <form method="POST" class="form">
+        <div class="form-group">
+            <label for="name">اسم الطابق:</label>
+            <input type="text" id="name" name="name" class="form-control" required value="{{ floor.name }}">
+        </div>
+
+        <div class="form-group">
+            <label for="number">رقم الطابق:</label>
+            <input type="number" id="number" name="number" class="form-control" required min="1" value="{{ floor.number }}">
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+            <a href="{{ url_for('admin_floors') }}" class="btn btn-secondary">إلغاء</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+

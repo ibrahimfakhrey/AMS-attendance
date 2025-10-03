@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}إضافة معلم - نظام حضور المدرسة{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <a href="{{ url_for('admin_teachers') }}" class="btn-back">← رجوع</a>
+    <h2>إضافة معلم جديد</h2>
+</div>
+
+<div class="form-container">
+    <form method="POST" class="form">
+        <div class="form-group">
+            <label for="name">اسم المعلم:</label>
+            <input type="text" id="name" name="name" class="form-control" required placeholder="مثال: أحمد محمد">
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">حفظ</button>
+            <a href="{{ url_for('admin_teachers') }}" class="btn btn-secondary">إلغاء</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+

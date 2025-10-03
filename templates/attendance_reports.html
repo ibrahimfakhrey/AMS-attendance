@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block title %}تقارير الحضور{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>تقارير الحضور</h2>
+    <p class="subtitle">عرض وتصفية سجلات الحضور</p>
+</div>
+
+<!-- Filters -->
+<div class="filters-card">
+    <h3>تصفية النتائج</h3>
+    <form method="GET" action="{{ url_for('attendance_reports') }}" class="filters-form">
+        <div class="filter-group">
+            <label>التاريخ:</label>
+            <input type="date" name="date" value="{{ date_filter or '' }}" class="form-control">
+        </div>
+        
+        <div class="filter-group">
+            <label>الفصل:</label>
+            <select name="class_id" class="form-control">
+                <option value="">جميع الفصول</option>
+                {% for class_room in classes %}
+                <option value="{{ class_room.id }}" {% if class_filter and class_filter == class_room.id|string %}selected{% endif %}>
+                    {{ class_room.name }} - {{ class_room.floor.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label>المعلم:</label>
+            <select name="teacher_id" class="form-control">
+                <option value="">جميع المعلمين</option>
+                {% for teacher in teachers %}
+                <option value="{{ teacher.id }}" {% if teacher_filter and teacher_filter == teacher.id|string %}selected{% endif %}>
+                    {{ teacher.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="filter-actions">
+            <button type="submit" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+                تصفية
+            </button>
+            <a href="{{ url_for('attendance_reports') }}" class="btn btn-secondary">إلغاء التصفية</a>
+        </div>
+    </form>
+</div>
+
+<!-- Results -->
+<div class="results-summary">
+    <h3>النتائج: {{ records|length }} سجل</h3>
+</div>
+
+{% if records %}
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>التاريخ</th>
+                <th>اليوم</th>
+                <th>الوقت</th>
+                <th>الفصل</th>
+                <th>المادة</th>
+                <th>المعلم</th>
+                <th>الحالة</th>
+                <th>التأخير</th>
+                <th>ملاحظات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr class="status-row status-{{ record.status.lower() }}">
+                <td>{{ record.date.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    {% set days = ['الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد'] %}
+                    {{ days[record.schedule.day_of_week] }}
+                </td>
+                <td>{{ record.schedule.start_time.strftime('%H:%M') }} - {{ record.schedule.end_time.strftime('%H:%M') }}</td>
+                <td>{{ record.class_room.name }}</td>
+                <td>{{ record.schedule.subject.name }}</td>
+                <td>{{ record.teacher.name }}</td>
+                <td>
+                    {% if record.status == 'Present' %}
+                    <span class="status-badge status-present">حاضر</span>
+                    {% elif record.status == 'Late' %}
+                    <span class="status-badge status-late">متأخر</span>
+                    {% elif record.status == 'Absent' %}
+                    <span class="status-badge status-absent">غائب</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if record.minutes_late %}
+                    {{ record.minutes_late }} دقيقة
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+                <td>{{ record.notes or '-' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="64" height="64">
+        <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+    </svg>
+    <h3>لا توجد سجلات</h3>
+    <p>لم يتم العثور على سجلات حضور تطابق معايير البحث</p>
+</div>
+{% endif %}
+
+<div class="back-button-container">
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+        العودة للرئيسية
+    </a>
+</div>
+
+<style>
+.filters-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.filters-card h3 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.filters-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    align-items: end;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: 600;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.results-summary {
+    background: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.results-summary h3 {
+    margin: 0;
+    color: #667eea;
+}
+
+.table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.data-table th {
+    padding: 15px;
+    text-align: right;
+    font-weight: 600;
+}
+
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.data-table tbody tr:hover {
+    background: #f8f9ff;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-present {
+    background: #28a745;
+    color: white;
+}
+
+.status-late {
+    background: #ffc107;
+    color: #333;
+}
+
+.status-absent {
+    background: #dc3545;
+    color: white;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.empty-state svg {
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+.back-button-container {
+    margin-top: 30px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .filters-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-actions {
+        flex-direction: column;
+    }
+    
+    .table-container {
+        font-size: 0.9em;
+    }
+}
+</style>
+{% endblock %}
+
